@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+    img {
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+  </style>
+  <title>MongoDB File Uploads</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 m-auto">
+        <h1 class="text-center display-4 my-4">MongoDB File</h1>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+          <div class="custom-file mb-3">
+            <input type="file" name="file" id="file" class="custom-file-input">
+            <label for="file" class="custom-file-label">Choose File</label>
+          </div>
+          <input type="submit" value="Submit" class="btn btn-primary btn-block">
+        </form>
+        <hr>
+        <% if(files) { %>
+        <% files.forEach(function(file) {%>
+        <div class="card card-body mb-3">
+          <% if(file.isImage) {%>
+          <img src="image/<%= file.filename %>" alt="" />
+          <%} else{%>
+          <%= file.filename %>
+          <% } %>
+          <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
+            <button style="margin: 10px 0;" class="btn btn-danger btn-block mt-4">Delete</button>
+          </form>
+        </div>
+        <%})%>
+        <%} else { %>
+        <p>No Files To Show</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
